@@ -1,0 +1,29 @@
+{template 'member', 'header'}
+<div class="body_bg">
+	<div class="position">
+		<div class="w1200">
+			<em><img src="{IMG_PATH}fl880/posi_img.jpg"></em><span>您现在的位置是：<a href="{APP_PATH}index.php?m=member&siteid=1">个人中心</a> &gt; 我的商品</span>
+		</div>
+	</div>
+</div>
+<div class="hy_conbg">
+	<div class="w1200 cl">
+		{template 'member', 'left'}
+		<div class="huiyuan_right fr">
+			{template 'member', 'right_top'}
+			<div class="hy_rcon">
+				<ul>
+					{wy:get sql="select * from wy_pay_spend where userid = $memberinfo[userid]" num="10" page="$_GET[page]" return="spend"}
+						{loop $spend $s}
+							<li><span>{date('Y-m-d',$s[creat_at])}</span><a href="javascript:void(0);">{$s[msg]}<em class="jifen_style">已消耗积分：{$s[value]}积分</em>             </a>        </li></li>
+						{/loop}
+					{/wy}
+				</ul>
+				<div class="page">
+					{$pages}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{template 'member', 'footer'}

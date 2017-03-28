@@ -1,0 +1,77 @@
+{template "content","header"}
+{template "content","top"}
+{template "content","inner_banner"}
+{if $catid == 15}
+<div class="sc_cont">
+    <h3 class="title">积分商城</h3>
+    <div class="service_bd w1200">
+        {wy:content action="lists" catid="$catid" page="$page" num="50" order="listorder desc,updatetime desc" return="point"}
+        {loop $point $p}
+        {wy:get sql="select * from wy_product_data where id = $p[id]" num="1" return="pdata"}{/wy}
+        <?php
+                $http_referer = urlencode(get_url());
+                $allow_visitor = sys_auth($catid.'_'.$p[id].'|'.$pdata[0][readpoint].'|'.$pdata[0][paytype]).'&http_referer='.$http_referer;
+        ?>
+        <div class="side2 fl">
+            <img src="{thumb($p[thumb],263,206)}">
+            <div class="num_bg">
+                <h3>{$p[title]}</h3>
+                <div class="num">
+                    <p class="fl">积分：<em>{$pdata[0][readpoint]}</em></p>
+                    <a class="fr convert" href="{APP_PATH}index.php?m=content&c=readpoint&allow_visitor={$allow_visitor}">兑换</a>
+                </div>
+            </div>
+        </div>
+        {/loop}
+        {/wy}
+    </div>
+    <div class="page">{$pages}</div>
+</div>
+<script type="text/javascript">
+</script>
+{else}
+    <div class="case_cont cl">
+        {template "content","inner_left"}
+        <div class="case_r">
+            <div class="about_tit">
+                <h3>{$CATEGORYS[$top_parentid]['catname']}</h3>
+            </div>
+            {wy:get sql="select * from wy_category where parentid = $top_parentid and siteid = $siteid order by listorder desc,catid desc"  num="10" }
+                <div class="team_list">
+                    {php $num = 0;}
+                    {loop $data $cate}
+                        <a href="{$cate[url]}" class="{if $num%6 == 0}left-none {/if} {if $catid == $cate[catid]}link2{/if}">{$cate[catname]}</a>
+                    {php $num++;}
+                    {/loop}
+                </div>
+            {/wy}
+            {wy:content action="lists" catid="$catid" page="$page" num="10" order="listorder desc,updatetime desc" return="artList"}
+            {loop $artList $al}
+                {if $catid == 3}
+                    <div class="case_r_mid cl">
+                        <img class="case_rml fl" src="{thumb($al[thumb],152,172)}" />
+                        <div class="case_rmr1 fr">
+                            <h3><a href="{$al['url']}">{$al['title']}</a></h3>
+                            <p class="line_min"><A href="{$al['url']}">{str_cut($al['description'],250)}</A></p>
+                            <span class="more1"> <a href="{$al['url']}">了解更多 >></a></span>
+                        </div>
+                    </div>
+                {else}
+                    <div class="case_r_mid cl">
+                        <div class="case_rmr fl">
+                            <h3><a href="{$al['url']}">{$al['title']}</a></h3>
+                            <p><a href="{$al['url']}">{str_cut($al['description'],250)}</a></p>
+                        </div>
+                        <div class="case_right fr">
+                            <em>{date('Y-m-d',$al['inputtime'])}</em><br>
+                            <a href="{$al['url']}">了解更多 >></a>
+                        </div>
+                    </div>
+                {/if}
+            {/loop}
+            {/wy}
+            <div class="page">{$pages}</div>
+        </div>
+    </div>
+{/if}
+{template "content","footer"}

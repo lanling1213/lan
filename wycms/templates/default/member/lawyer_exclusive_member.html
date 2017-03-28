@@ -1,0 +1,30 @@
+{template 'member', 'header'}
+<div class="body_bg">
+    <div class="position">
+        <div class="w1200">
+            <em><img src="{IMG_PATH}fl880/posi_img.jpg"></em><span>您现在的位置是：<a href="{APP_PATH}index.php?m=member&c=lawyer&siteid=1">个人中心</a> &gt; 会员信息</span>
+        </div>
+    </div>
+</div>
+<div class="hy_conbg">
+    <div class="w1200 cl">
+        {template 'member', 'lawyer_left'}
+        <div class="huiyuan_right fr">
+            {template 'member', 'lawyer_right_top'}
+            <div class="hy_rcon">
+                <ul>
+                    {wy:get sql="select * from wy_ask_question where userid = $memberinfo[userid] and typeid = 2 and status = 1 order by inputtime desc" num="10" page="$_GET[page]" return="law"}
+                        {loop $law $l}
+                            {wy:get sql="select nickname from wy_member where userid = $l[memberid]" num="1" return="mb"}{/wy}
+                             <li><span><a href="{APP_PATH}index.php?m=member&c=lawyer&a=lawyer_ask_detail&qid={$l[questionid]}&t=1">回复</a></span><a href="{APP_PATH}index.php?m=member&c=lawyer&a=lawyer_ask_detail&qid={$l[questionid]}&t=1">【{$mb[0][nickname]}】 {str_cut($l[content],90)}</a></li>
+                        {/loop}
+                    {/wy}
+                </ul>
+                <div class="page">
+                    {$pages}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{template 'member', 'footer'}

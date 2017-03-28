@@ -1,0 +1,52 @@
+<div class="case_l">
+    <div class="case_list">
+        <div class="case_lt">
+            <em><img src="{IMG_PATH}fl880/qusetion.jpg" >您要咨询的问题？</em>
+        </div>
+        <div class="list_case">
+            <ul>
+                {wy:get sql="select * from wy_ask_type where parentid = 1 and siteid = 1 order by listorder desc" num="100" return="type"}
+                {loop $type $t}
+                <li><a href="{APP_PATH}index.php?m=ask&c=index"><p>{$t[typename]}</p></a></li>
+                {/loop}
+                {/wy}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="case_list">
+        <div class="case_lt">
+            <img src="{IMG_PATH}fl880/list.jpg"><em>{$CATEGORYS[12]['catname']}</em>
+        </div>
+
+        <div class="case_lb1">
+            <ul>
+                {wy:content action="lists" catid="12" order="listorder desc,updatetime desc" num="7" return="artList"}
+                    {loop $artList $art}
+                        <li><a href="{$art[url]}">{str_cut($art[title],50)}</a></li>
+                    {/loop}
+                {/wy}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="case_list">
+        <div class="case_lt">
+            <img src="{IMG_PATH}fl880/list.jpg"><em>{$CATEGORYS[4]['catname']}</em>
+        </div>
+
+        <div class="case_lb1">
+            <ul>
+                {wy:content action="lists" catid="4" order="listorder desc,updatetime desc" num="7" return="artList"}
+                {loop $artList $art}
+                <li><a href="{$art[url]}">{str_cut($art[title],50)}</a></li>
+                {/loop}
+                {/wy}
+            </ul>
+        </div>
+
+    </div>
+
+</div>

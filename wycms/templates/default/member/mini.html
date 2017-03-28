@@ -1,0 +1,17 @@
+<link href="{CSS_PATH}fl880/style.css" rel="stylesheet">
+<div class="top">
+    <div class="w1200">
+            {if $_username}
+            <ul class="fr">
+                <li class="fl line  "><a href="#">{trim(trim(get_nickname(),')'),'(')}，您好 </a></li>
+                <li class="fl line"><a href="{APP_PATH}index.php?m=member&c=index&a=logout&forward={urlencode($_GET['forward'])}&siteid={$siteid}" target="_top">退出</a></li>
+                <a class="color_a" href="{if $userdata[modelid] == 12}{APP_PATH}index.php?m=member&c=lawyer&siteid={$siteid}{else}{APP_PATH}index.php?m=member&siteid={$siteid}{/if}" target="_top">个人中心</a>
+            </ul>
+            {else}
+            <ul class="fr">
+                <li class="fl login"><a href="{APP_PATH}index.php?m=member&c=index&a=login" target="_top">登录</a></li>
+                <li class="fl login1"><a href="{APP_PATH}index.php?m=member&c=index&a=register&modelid=10" target="_top">注册</a></li>
+            </ul>
+            {/if}
+    </div>
+</div>

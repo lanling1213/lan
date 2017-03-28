@@ -1,0 +1,53 @@
+{template 'member', 'header'}
+<div class="body_bg">
+	<div class="position">
+		<div class="w1200">
+			<em><img src="{IMG_PATH}fl880/posi_img.jpg"></em><span>您现在的位置是：<a href="{APP_PATH}index.php?m=member&siteid=1">个人中心</a> &gt; 专属律师</span>
+		</div>
+	</div>
+</div>
+<div class="hy_conbg">
+	<div class="w1200 cl">
+		{template 'member', 'left'}
+		<div class="huiyuan_right fr">
+			{template 'member', 'right_top'}
+			<div class="zx_hy">
+				<ul>
+					{wy:get sql="select * from wy_member where modelid = 12 and siteid = 1" num="10" page="$_GET[page]" return="lawyer"}
+						{loop $lawyer $l}
+						{wy:get sql="select major from wy_member_lawyer where userid = $l[userid]" num="1" return="lawyer_detail"}{/wy}
+						<li class="cl">
+							<div class="hy_left fl">
+								<img src="{get_memberavatar($l[userid],1,45)}" onerror="this.src='{IMG_PATH}fl880/hy_img1.jpg'">
+								<p>{$l[nickname]}律师</p>
+							</div>
+							<div class="hy_mid fl">
+								<p>专业：{$lawyer_detail[0][major]}<br>
+									手机号码：{$l[mobile]}</p>
+								{wy:get sql="select content,questionid,inputtime,replytime from wy_ask_question where userid = $l[userid] and typeid = 2 and status = 1 order by inputtime desc" num="50" return="ask"}
+								{loop $ask $a}
+								<ul>
+									<li>
+									<span>
+									 <em class="fr"> {date('Y-m-d',$a[inputtime])}</em>     <a href="index.php?m=member&c=index&a=account_ask_detail&qid={$a[questionid]}&uid={$l[userid]}&t=2"> {if $a[replytime]}[已回复]{else}[未回复]{/if}{str_cut($a[content],90)}</a>
+									</span>
+									</li>
+								</ul>
+								{/loop}
+								{/wy}
+							</div>
+							<div class="hy_right1 fr">
+								<button class="zixun" onclick="window.location.href='index.php?m=member&c=index&a=account_ask_detail&uid={$l[userid]}&t=2'">咨询提问</button>
+							</div>
+						</li>
+						{/loop}
+					{/wy}
+				</ul>
+				<div class="page">
+					{$pages}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{template 'member', 'footer'}

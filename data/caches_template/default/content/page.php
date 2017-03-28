@@ -1,0 +1,122 @@
+<?php defined('IN_WYCMS') or exit('No permission resources.'); ?><?php include template("content","header"); ?>
+<?php include template("content","top"); ?>
+<?php include template("content","inner_banner"); ?>
+
+<?php if($catid == 2) { ?>
+<div class="about_cont">
+    <div class="about_bom">
+        <h3><?php echo $title;?></h3>
+        <?php echo htmlspecialchars_decode($content);?>
+    </div>
+</div>
+<?php } elseif ($catid == 6) { ?>
+<div class="ly_cont">
+    <div class="case_cont cl">
+    <?php include template("content","inner_left"); ?>
+    <div class="case_r">
+        <div class="about_tit">
+            <h3>联系我们</h3>
+        </div>
+        <div class="contact_bom">
+            <ul>
+                <li><em><img src="<?php echo IMG_PATH;?>fl880/contact_icon1.png"></em><a href="javascript:void(0);">联系人：<?php echo $info['name'];?> </a></li>
+                <li><em><img src="<?php echo IMG_PATH;?>fl880/iphone_icon1.png"></em><a href="javascript:void(0);">手机：<?php echo $info['mobile'];?> </a></li>
+                <li><em><img src="<?php echo IMG_PATH;?>fl880/qq_icon1.png"></em><a href="javascript:void(0);">QQ: <?php echo $info['qq'];?>  </a></li>
+                <li><em><img src="<?php echo IMG_PATH;?>fl880/email_icon1.png"></em><a href="javascript:void(0);">电子邮箱: <?php echo $info['email'];?> </a></li>
+                <li><em><img src="<?php echo IMG_PATH;?>fl880/poin_icon1.png"></em><a href="javascript:void(0);">地址：<?php echo $info['area'];?>  </a></li>
+            </ul>
+        </div>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=6evqr0mSp1TuGDMGKcFPEwQQ"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+        <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+        <div id="map" style=" height:550px;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out; border:#ccc 1px solid"></div>
+        <script type="text/javascript">
+            // 百度地图API功能
+            var map = new BMap.Map('map');
+            var poi = new BMap.Point(117.312121,31.885022);
+            map.centerAndZoom(poi, 18);
+            map.enableScrollWheelZoom();
+
+            var content = '<div style="margin:0;line-height:20px;padding:2px;">' +
+                '<img src="<?php echo IMG_PATH;?>fl880/map-img.jpg" alt="" style="float:right;zoom:1;overflow:hidden;width:100px;height:100px;margin-left:3px;"/>' +
+                '地址：合肥市新站区凤阳西路恒丰国际大厦11楼<br/>法律咨询电话：400-880-5164   监督电话：0551-62370148<br/>简介：安徽凯安律师事务所' +
+                '</div>';
+
+            //创建检索信息窗口对象
+            var searchInfoWindow = null;
+            searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
+                title  : "安徽凯安律师事务所",      //标题
+                width  : 290,             //宽度
+                height : 105,              //高度
+                panel  : "panel",         //检索结果面板
+                enableAutoPan : true,     //自动平移
+                searchTypes   :[
+                    BMAPLIB_TAB_SEARCH,   //周边检索
+                    BMAPLIB_TAB_TO_HERE,  //到这里去
+                    BMAPLIB_TAB_FROM_HERE //从这里出发
+                ]
+            });
+            var marker = new BMap.Marker(poi); //创建marker对象
+            marker.enableDragging(); //marker可拖拽
+            marker.addEventListener("click", function(e){
+                searchInfoWindow.open(marker);
+            })
+            map.addOverlay(marker); //在地图中添加marker
+            searchInfoWindow.open(marker); //在marker上打开检索信息串口
+        </script>
+    </div>
+</div>
+</div>
+<?php } elseif ($catid == 13) { ?>
+<script type="text/javascript" src="<?php echo JS_PATH;?>fl880/counter.min.js"></script>
+<div class="about_cont">
+    <div class="law_con">
+        <h3 class="h3_font">诉讼费计算器</h3>
+    </div>
+    <div class="law_s cl calculator">
+        <div class="law_sl payCalculator">
+            <h3>选择案件类型</h3>
+            <select class="calculatorType">
+                <option>财产案件</option>
+            </select>
+            <h3>输入标的</h3>
+            <input class="text amounts" type="text">
+            <p><input class="checkbox" type="checkbox" >是否适用于简易程序或调解结案或诉讼案件</p>
+            <button class="button calculate" type="button" >计算诉讼费用</button>
+
+            <h3>应缴纳诉讼费的用</h3>
+            <input class="text payable" type="text" value="">
+        </div>
+
+
+        <div class="law_con space1">
+            <h3 class="h3_font">查询助手</h3>
+
+
+        </div>
+        <div class="law_srt">
+            <div class="search">
+                <input class="text fl" type="text" value="法律法规查询" onfocus="if(this.value == this.defaultValue) this.value=''" onblur="if(this.value == this.defaultValue || this.value == '')this.value=this.defaultValue">
+                <button class="button1 fl" type="button" onclick="window.open('http://china.findlaw.cn/fagui/')" style="cursor: pointer;"></button>
+            </div>
+            <div class="search">
+                <input class="text fl" type="text" value="企业工商查询" onfocus="if(this.value == this.defaultValue) this.value=''" onblur="if(this.value == this.defaultValue || this.value == '')this.value=this.defaultValue">
+                <button class="button1 fl" type="button" onclick="window.open('http://www.gsxt.gov.cn/')" style="cursor: pointer;"></button>
+            </div>
+
+            <div class="search">
+                <input class="text fl" type="text" value="裁判文书查询" onfocus="if(this.value == this.defaultValue) this.value=''" onblur="if(this.value == this.defaultValue || this.value == '')this.value=this.defaultValue">
+                <button class="button1 fl" type="button" onclick="window.open('http://openlaw.cn/')" style="cursor: pointer;"></button>
+            </div>
+
+            <div class="search">
+                <input class="text fl" type="text" value="法院公告查询" onfocus="if(this.value == this.defaultValue) this.value=''" onblur="if(this.value == this.defaultValue || this.value == '')this.value=this.defaultValue">
+                <button class="button1 fl" type="button" onclick="window.open('http://www.live.chinacourt.org/fygg.shtml')" style="cursor: pointer;"></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<?php } ?>
+
+<?php include template("content","footer"); ?>

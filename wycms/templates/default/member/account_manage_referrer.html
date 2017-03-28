@@ -1,0 +1,27 @@
+{template 'member', 'header'}
+<div class="body_bg">
+	<div class="position">
+		<div class="w1200">
+			<em><img src="{IMG_PATH}fl880/posi_img.jpg"></em><span>您现在的位置是：<a href="{APP_PATH}index.php?m=member&siteid=1">个人中心</a> &gt; 我推荐的人</span>
+		</div>
+	</div>
+</div>
+<div class="hy_conbg">
+	<div class="w1200 cl">
+		{template 'member', 'left'}
+		<div class="huiyuan_right fr">
+			{template 'member', 'right_top'}
+			<div class="hy_rcon">
+				<ul>
+					{wy:get sql="select * from wy_member_detail md left join wy_member m on md.userid = m.userid where md.referrer = '$memberinfo[username]'"  num="20"}
+						{loop $data $a}
+							<li><span>{date('Y-m-d',$a['inputtime'])}</span><a href="index.php?m=member&c=index&a=account_referrer_detail&t=1&rid={$a[userid]}">{$a[username]}</a></li>
+						{/loop}
+					{/wy}
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</div>
+{template 'member', 'footer'}

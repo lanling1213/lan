@@ -1,0 +1,26 @@
+{template 'member', 'header'}
+<div class="body_bg">
+	<div class="position">
+		<div class="w1200">
+			<em><img src="{IMG_PATH}fl880/posi_img.jpg"></em><span>您现在的位置是：<a href="{APP_PATH}index.php?m=member&c=lawyer&siteid=1">个人中心</a> &gt; 会员详情</span>
+		</div>
+	</div>
+</div>
+<div class="hy_conbg">
+	<div class="w1200 cl">
+		{template 'member', 'lawyer_left'}
+		<div class="huiyuan_right fr">
+			{template 'member', 'lawyer_right_top'}
+			<div class="hy_rcon">
+				<div class="rcon_top">
+					{wy:get sql="select * from wy_member_detail where userid = '$member_detail[userid]'" num="1" return="m_detail"}{/wy}
+					<p>姓名：{$member_detail[nickname]}</p>
+					<p> 手机号码：{$member_detail[mobile]}</p>
+					<p> 积分：{$member_detail[point]}分</p>
+					<p> 地址：{$m_detail[0][address]}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{template 'member', 'footer'}

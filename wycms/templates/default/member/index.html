@@ -1,0 +1,40 @@
+{template 'member', 'header'}
+<div class="body_bg">
+	<div class="position">
+		<div class="w1200">
+			<em><img src="{IMG_PATH}fl880/posi_img.jpg"></em><span>您现在的位置是：<a href="{APP_PATH}index.php?m=member&siteid=1">个人中心</a> &gt; 会员中心</span>
+		</div>
+	</div>
+</div>
+<div class="hy_conbg">
+	<div class="w1200 cl">
+		{template 'member', 'left'}
+		<div class="huiyuan_right fr">
+			{template 'member', 'right_top'}
+			<div class="hy_rcon">
+				<ul>
+					{wy:get sql="SELECT * FROM wy_ask_question where memberid = $memberinfo[userid] and siteid = 1 and typeid != 2 and status = 1 order by inputtime desc" page="$_GET[page]" num="10" return="datas" }
+						{loop $datas $a}
+							<li><span>{date('Y-m-d',$a['inputtime'])}</span><a href="index.php?m=member&c=index&a=account_ask_detail&t=1&qid={$a[questionid]}">{if $a[replytime]}[已回复]{else}[未回复]{/if}{str_cut($a[content],90)}</a></li>
+						{/loop}
+					{/wy}
+				</ul>
+				<div class="page">
+					{$pages}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{JS_PATH}cookie.js"></script>
+<script language="JavaScript">
+<!--
+$(document).ready(function() {
+	var announcement = getcookie('announcement_{$memberinfo[userid]}_{$announceid}');
+	if(announcement==null || announcement=='') {
+		$("#announcement").fadeIn("slow");
+	}
+});
+//-->
+</script>
+{template 'member', 'footer'}

@@ -1,0 +1,30 @@
+{template 'member', 'header'}
+<div class="body_bg">
+	<div class="position">
+		<div class="w1200">
+			<em><img src="{IMG_PATH}fl880/posi_img.jpg"></em><span>您现在的位置是：<a href="{APP_PATH}index.php?m=member&c=lawyer&siteid=1">个人中心</a> &gt; 会员信息</span>
+		</div>
+	</div>
+</div>
+<div class="hy_conbg">
+	<div class="w1200 cl">
+		{template 'member', 'lawyer_left'}
+		<div class="huiyuan_right fr">
+			{template 'member', 'lawyer_right_top'}
+			<div class="hy_rcon">
+				<ul>
+					{wy:get sql="select userid,regdate,nickname,groupid from wy_member  where modelid = 10 order by userid desc" num="10" page="$_GET[page]" return="member"}
+						{loop $member $m}
+							{wy:get sql="select name from wy_member_group where groupid = $m[groupid]" num="1" return="group"}{/wy}
+							<li><span>{date('Y-m-d',$m[regdate])}</span><a href="{APP_PATH}index.php?m=member&c=lawyer&a=lawyer_member_detail&uid={$m[userid]}&t=1">{$group[0][name]}-{$m[nickname]}</a></li>
+						{/loop}
+					{/wy}
+				</ul>
+				<div class="page">
+					{$pages}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{template 'member', 'footer'}

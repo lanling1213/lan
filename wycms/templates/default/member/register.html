@@ -1,0 +1,198 @@
+{php $siteinfo = siteinfo(1);$info = string2array($siteinfo['infos']);}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={CHARSET}" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>{$siteinfo[name]} - {L('member','','member').L('manage_center')}</title>
+<script type="text/javascript" src="{JS_PATH}jquery.min.js"></script>
+<script type="text/javascript" src="{JS_PATH}member_common.js"></script>
+<script type="text/javascript" src="{JS_PATH}formvalidator.js" charset="UTF-8"></script>
+<script type="text/javascript" src="{JS_PATH}formvalidatorregex.js" charset="UTF-8"></script>
+<script type="text/javascript" src="{JS_PATH}dialog.js"></script>
+<script type="text/javascript" src="{JS_PATH}fl880/jquery.SuperSlide.2.1.js"></script>
+<link href="{CSS_PATH}table_form.css" rel="stylesheet" type="text/css" />
+<link href="{CSS_PATH}reset.css" rel="stylesheet" type="text/css" />
+<link href="{CSS_PATH}dialog_simp.css" rel="stylesheet" type="text/css" />
+<link href="{CSS_PATH}fl880/style.css" rel="stylesheet">
+<script language="JavaScript">
+<!--
+$(function(){
+    $.formValidator.initConfig({autotip:true,formid:"myform",onerror:function(msg){}});
+	$("#username").formValidator({onshow:"{L('input').L('username')}",onfocus:"{L('username').L('between_2_to_20')}"}).inputValidator({min:2,max:20,onerror:"{L('username').L('between_2_to_20')}"}).regexValidator({regexp:"ps_username",datatype:"enum",onerror:"{L('username').L('format_incorrect')}"}).ajaxValidator({
+	    type : "get",
+		url : "",
+		data :"m=member&c=index&a=public_checkname_ajax",
+		datatype : "html",
+		async:'false',
+		success : function(data){
+            if( data == "1" ) {
+                return true;
+			} else {
+                return false;
+			}
+		},
+		buttons: $("#dosubmit"),
+		onerror : "{L('deny_register').L('or').L('user_already_exist')}",
+		onwait : "{L('connecting_please_wait')}"
+	});
+	$("#password").formValidator({onshow:"{L('input').L('password')}",onfocus:"{L('password').L('between_6_to_20')}"}).inputValidator({min:6,max:20,onerror:"{L('password').L('between_6_to_20')}"}).regexValidator({regexp:"password",datatype:"enum",onerror:"密码只能是数字,字母 和 -_()等字符"});
+	$("#pwdconfirm").formValidator({onshow:"{L('input').L('cofirmpwd')}",onfocus:"{L('passwords_not_match')}",oncorrect:"{L('passwords_match')}"}).compareValidator({desid:"password",operateor:"=",onerror:"{L('passwords_not_match')}"});
+	$("#email").formValidator({onshow:"{L('input').L('email')}",onfocus:"{L('email').L('format_incorrect')}",oncorrect:"{L('email').L('format_right')}"}).inputValidator({min:7,max:32,onerror:"{L('email').L('between_7_to_32')}"}).regexValidator({regexp:"email",datatype:"enum",onerror:"{L('email').L('format_incorrect')}"}).ajaxValidator({
+	    type : "get",
+		url : "",
+		data :"m=member&c=index&a=public_checkemail_ajax",
+		datatype : "html",
+		async:'false',
+		success : function(data){	
+            if( data == "1" ) {
+                return true;
+			} else {
+                return false;
+			}
+		},
+		buttons: $("#dosubmit"),
+		onerror : "{L('deny_register').L('or').L('email_already_exist')}",
+		onwait : "{L('connecting_please_wait')}"
+	});
+
+	$(":checkbox[name='protocol']").formValidator({tipid:"protocoltip",onshow:"{L('read_protocol')}",onfocus:"{L('read_protocol')}"}).inputValidator({min:1,onerror:"{L('read_protocol')}"});
+    $("#mobile").formValidator({onshow:"请输入手机号码",onfocus:"请输入手机号码"}).inputValidator({min:1,max:11,onerror:"请输入正确的手机号码"}).regexValidator({regexp:"mobile",datatype:"enum",onerror:"手机号码格式错误"});
+    $("#lawyer_code").formValidator({onshow:"请填写执业证号",onfocus:"请填写执业证号"});
+    $("#lawyer_room").formValidator({onshow:"请填写执业律所",onfocus:"请填写执业律所"});
+    $("#address").formValidator({onshow:"请填写联系地址",onfocus:"请填写联系地址"});    $("#nickname").formValidator({onshow:"请填写真实姓名",onfocus:"请填写真实姓名"});
+    $("#referrer").formValidator({ // 验证：发送时间
+        onshow: "可不填",
+        onfocus: "可不填"
+    }).functionValidator({
+        fun: function (val, elem) {
+            if ($("#username").val() == val) {
+                return "不能与用户名相同";
+            }
+            return true;
+        }
+    });
+	{if !isset($_GET['modelid']) && !isset($_GET['t']) && !empty($member_setting['showregprotocol'])}
+		show_protocol();
+	{/if}
+});
+
+function show_protocol() {
+
+	art.dialog({lock:false,title:'{L('register_protocol')}',id:'protocoliframe', iframe:'?m=member&c=index&a=register&protocol=1',width:'500',height:'310',yesText:'{L('agree')}'}, function(){
+		$("#protocol").attr("checked",true);
+	});
+}
+$(document).ready(function(){
+    $("#agree").click(function(){
+        $(".ag_con").fadeToggle(1000);
+    });
+});
+//-->
+</script>
+</head>
+<body>
+<div id="inner" class="head" style="position: static; top: 0px;">
+	{template "content","top"}
+</div>
+<div class="huiyuan">
+	<div class="w1200 cl">
+		<h3>会员注册</h3>
+	</div>
+</div>
+<div class="body_bg">
+	<div class="position1">
+		<div class="w1200">
+			<em><img src="{IMG_PATH}fl880/posi_img.jpg" /></em><span>您现在的位置是：<a href="#">个人中心</a> > 会员注册</span>
+		</div>
+	</div>
+	<div class="ly_conbg2 ">
+	{if !isset($_GET['t'])}
+	<form method="post" action="" id="myform">
+		<input type="hidden" name="siteid" value="{$siteid}" />
+		<div>
+			<div class="slideTxtBox1 fl">
+				<div class="hd">
+					{if $member_setting['choosemodel'] && count($modellist)>1}
+					<!--是否开启选择会员模型选项-->
+					<ul>
+						{loop $modellist $k $v}
+						<li data-modelid ="{$k}" onclick="changemodel($(this).data('modelid'))" {if $k==$modelid}class="on"{/if}>{$v['name']}</li>
+						{if $k==$modelid}
+							<input name="modelid" type="hidden" value="{$k}"/>
+						{/if}
+						{/loop}
+					</ul>
+					{else}
+					{loop $modellist $k $v}
+						<input name="modelid" type="hidden" value="{$k}"/>
+					{/loop}
+					{/if}
+
+				</div>
+				<div class="bd">
+					<ul>
+						<li class="login cl">
+							<div class="login_con1">
+								<p class="input"><input type="text" class="text" id="username" name="username" placeholder="{L('username')}：" value=""></p>
+								<p class="input"><input type="password" class="text"  id="password"  name="password" placeholder="{L('password')}：" value=""></p>
+								<p class="input"><input type="password" class="text"  id="pwdconfirm" placeholder="{L('cofirmpwd')}：" value=""></p>
+								<p class="input"><input type="text" class="text" id="email"  name="email"  placeholder="{L('email')}：" value=""></p>
+								<p class="input"><input type="text" class=text id="mobile" name="mobile"  placeholder="手机号码：" value="" ></p>
+								<p class="input"><input type="text" id="nickname" name="nickname" placeholder="真实姓名：" class="text"></p>
+
+								{if $member_setting['choosemodel']}
+								<!--是否开启选择会员模型选项-->
+								<script language="JavaScript">
+                                    <!--
+                                    function changemodel(modelid) {
+                                        redirect('{APP_PATH}index.php?m=member&c=index&a=register&modelid='+modelid+'&siteid={$siteid}');
+                                    }
+                                    //-->
+								</script>
+								{loop $forminfos $k $v}
+								<p>{if $v['isbase']}<font color=red>*</font>{/if}{$v['form']}</p>
+								{/loop}
+								{/if}
+								{if $member_setting['enablcodecheck']=='1' && $sms_setting['sms_enable']!='1'}
+								<p class="input"><input type="text" id="code" name="code" size="10" class="code fl" placeholder="{L('checkcode')}：">{form::checkcode('code_img', '4', '27', 120, 90)}</p>
+								{/if}
+								<p><input type="checkbox" name="protocol" id="protocol" class="check">
+									<a id="agree" href="javascript:void(0);" >我同意注册须知</a>
+								<div class="ag_con" style="display: none;">
+									<h3>注册须知内容为：</h3>
+									1、申请人需年满16周岁；<br>
+									2、申请人具有完全民事行为 能力；<br>
+									3、申请人有法律服务需求；<br>
+									4、申请人为人诚信。
+								</div>
+								</p>
+								<p class="reg">
+									<div class="submit"><input type="submit" name="dosubmit" value="{L('agree_protocol_post')}" class="button"></div><br />
+								</p>
+							</div>
+
+						</li>
+
+					</ul>
+				</div>
+			</div>
+			<div class="login_img1 fr">
+				<img src="{IMG_PATH}fl880/login_bg.png">
+			</div>
+		</div>
+	</form>
+	{elseif isset($_GET['t']) && $_GET['t']==3}
+		<div class="lawyer_conbg w1200">
+			<h4>{param::get_cookie('_username')} {您好！非常感谢您注册成为本网的律师会员，注册结果请等待管理员审核。（审核结果将会发送到您注册是填写的邮箱）}</h4>
+		</div>
+
+	{else}
+		<script language="JavaScript">
+            <!--
+            redirect("{APP_PATH}index.php?m=member&c=index&a=login");
+            //-->
+		</script>
+	{/if}
+	</div>
+{template 'member', 'footer'}

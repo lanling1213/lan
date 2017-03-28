@@ -1,0 +1,77 @@
+{php $siteinfo = siteinfo(1);$info = string2array($siteinfo['infos']);}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>志公恒信律师服务网 - {L('member','','member').L('manage_center')}</title>
+<link href="{CSS_PATH}reset.css" rel="stylesheet" type="text/css" />
+<link href="{CSS_PATH}table_form.css" rel="stylesheet" type="text/css" />
+<link href="{CSS_PATH}fl880/style.css" rel="stylesheet">
+<script type="text/javascript" src="{JS_PATH}jquery.min.js"></script>
+<script type="text/javascript" src="{JS_PATH}member_common.js"></script>
+{if isset($show_validator)}
+<script type="text/javascript" src="{JS_PATH}formvalidator.js" charset="UTF-8"></script>
+<script type="text/javascript" src="{JS_PATH}formvalidatorregex.js" charset="UTF-8"></script>
+{/if}
+</head>
+<body>
+	<div class="top">
+		<div class="w1200">
+			<ul class="fr">
+				{if $memberinfo}
+				<ul class="fr">
+					<li class="fl line  "><a href="#">{trim(trim(get_nickname(),')'),'(')}，您好 </a></li>
+					<li class="fl line"><a href="{APP_PATH}index.php?m=member&c=index&a=logout&forward={urlencode($_GET['forward'])}&siteid={$siteid}">退出</a></li>
+				</ul>
+				{else}
+				<li class="fl login"><a href="{APP_PATH}index.php?m=member&c=index&a=login">登录</a></li>
+				<li class="fl login1"><a href="{APP_PATH}index.php?m=member&c=index&a=register&modelid=10">注册</a></li>
+				{/if}
+			</ul>
+		</div>
+	</div>
+	<div class="header cl">
+		<div class="logo fl">
+			<a href="/"><img src="{IMG_PATH}fl880/LOGO.jpg" alt="{$siteinfo[name]}"></a>
+		</div>
+		<div class="nav_list fr">
+			<ul id="nav" class="nav clearfix">
+				<li class="nLi" >
+					<h3><a {if empty($catid)}class="on"{/if} href="{siteurl($siteid)}" href="index.html">首页 </a></h3></li>
+				{wy:content action="category" catid="0" num="10" siteid="$siteid" order="listorder ASC" return="nav"}
+				{loop $nav $r}
+				<li class="nLi"> <h3><a {if $catid == $r[catid]}class="on"{/if} href="{$r[url]}">{$r[catname]}</a></h3>
+					{if $r[child]}
+					<ul class="sub">
+						{wy:content action="category" catid="$r[catid]" num="10" siteid="$siteid" order="listorder ASC" return="nav2"}
+						{loop $nav2 $v}
+						<li><a href="{$v[url]}">{$v[catname]}</a></li>
+						{/loop}
+						{/wy}
+					</ul>
+					{/if}
+				</li>
+				{/loop}
+				{/wy}
+				<li  class="nLi" ><h3><a href="{APP_PATH}ask/">在线咨询</a></h3></li>
+			</ul>
+			<script id="jsID" type="text/javascript">
+
+                jQuery("#nav").slide({
+                    type:"menu",// 效果类型，针对菜单/导航而引入的参数（默认slide）
+                    titCell:".nLi", //鼠标触发对象
+                    targetCell:".sub", //titCell里面包含的要显示/消失的对象
+                    effect:"slideDown", //targetCell下拉效果
+                    delayTime:300 , //效果时间
+                    triggerTime:0, //鼠标延迟触发时间（默认150）
+                    returnDefault:true //鼠标移走后返回默认状态，例如默认频道是“预告片”，鼠标移走后会返回“预告片”（默认false）
+                });
+			</script>
+		</div>
+	</div>
+<div class="huiyuan">
+	<div class="w1200 cl">
+		<h3>会员中心</h3>
+	</div>
+</div>

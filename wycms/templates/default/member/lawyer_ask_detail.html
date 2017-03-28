@@ -1,0 +1,72 @@
+{template 'member', 'header'}
+<script type="text/javascript" src="{JS_PATH}Validform_v5.3.2.js"></script>
+<div class="body_bg">
+	<div class="position">
+		<div class="w1200">
+			<em><img src="{IMG_PATH}fl880/posi_img.jpg"></em><span>您现在的位置是：<a href="{APP_PATH}index.php?m=member&c=lawyer&siteid=1">个人中心</a> &gt; 咨询详情</span>
+		</div>
+	</div>
+</div>
+<div class="hy_conbg">
+	<div class="w1200 cl">
+		{template 'member', 'lawyer_left'}
+		<div class="huiyuan_right fr">
+			{template 'member', 'lawyer_right_top'}
+			<div class="hy_rcon">
+				{if $ask}
+				<div class="ques_tit cl">
+					<span class="fr">{date('Y-m-d',$ask[inputtime])}</span><img class="fl" src="{IMG_PATH}fl880/question_img.jpg"> <h3><em>{$ask[name]} : </em> {$ask[content]}</h3>
+				</div>
+				{/if}
+				{loop $reply $r}
+					<div class="ques_con">
+						<img class="fl" src="{IMG_PATH}fl880/da_img.jpg"> <p class="fr"><em>{$r[lawyer_name]}律师 ： </em>{$r['content']}<br>
+					</p>
+					</div>
+				{/loop}
+				<div class="ques_con">
+				<form action="/index.php?m=ask&c=index&a=reply" method="post" enctype="application/x-www-form-urlencoded" id="myform">
+					<input type="hidden" name="url" value="{if $ask[userid]}{APP_PATH}index.php?m=member&c=lawyer&a=lawyer_exclusive_member&t=1{else}{APP_PATH}index.php?m=member&c=lawyer&siteid=1{/if}" />
+					<input type="hidden" name="qid" value="{$questionid}" />
+					{php wy_base::load_sys_class('form', '', 0);}
+					<textarea placeholder="请输入要回复的内容..." id="introduce" name="content" ></textarea>
+					<p  style="margin-left: 58px;"><font id="msgdemo" color="red" style="font-size: 16px;"></font></p>
+					<input type="text" class="code" name="code" id="code" value="" placeholder="验证码">&nbsp;&nbsp;{form::checkcode('code_img','4','20',120,80)}&nbsp;
+					<button class="button"   name="dosubmit" id="submitform" type="submit">回复问题</button>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        var demo = $("#myform").Validform({
+            tiptype: function(msg, o, cssctl) {
+                var objtip = $("#msgdemo");
+                cssctl(objtip, o.type);
+                objtip.text(msg);
+            },
+            btnSubmit: "#submitform",
+            btnReset: "#btn_reset",
+        });
+        demo.addRule([{
+            ele: "#introduce",
+            datatype: "*6-1000",
+            tip: "",
+            nullmsg: "回复内容不能为空",
+            errormsg: "回复内容在6-1000个字之间"
+
+        },{
+            ele: "#code",
+            tip: "",
+            datatype: "/^[0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z]$/",
+            nullmsg: "请输入验证码",
+            errormsg: "请正确输入验证码"
+
+        }]);
+
+    });
+
+</script>
+{template 'member', 'footer'}

@@ -1,0 +1,15 @@
+{php $siteinfo = siteinfo(1);$info = string2array($siteinfo['infos']);}
+<?php $member_interface = wy_base::load_app_class('member_interface', 'member');$userdata = $member_interface->get_member_info($_username, 2);?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if $id}{$title} - {$siteinfo[name]}{elseif isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{$siteinfo[name]}{else}{$SEO['site_title']}{/if}{if $page>1} - 第 {$page} 页{/if}</title>
+    <meta name="keywords" content="{if $catid && empty($id)}{$catname}{else}{$SEO['keyword']}{/if}">
+    <meta name="description" content="{if $catid && empty($id)}{$siteinfo[name]}{$catname}栏目为您提供{$catname}相关法律知识和内容，如果还需要更专业的{$catname}知识，可咨询志公恒律师，咨询热线：0551-62370148{else}{$SEO['description']}{/if}">
+    <link href="{CSS_PATH}fl880/style.css" rel="stylesheet">
+    <script type="text/javascript" src="{JS_PATH}fl880/jquery1.42.min.js"></script>
+    <script type="text/javascript" src="{JS_PATH}fl880/jquery.SuperSlide.2.1.js"></script>
+    <script type="text/javascript" src="{JS_PATH}fl880/jquery.SuperSlide.2.1.js"></script>
+</head>
+<body>
